@@ -9,10 +9,12 @@ Nível básico para atendentes:
 * Listar as especialidades disponíveis e a quantidade de profissionais de cada uma;
 * Agendar horários;
 * Ver os agendamentos de cada médico.
+
 Nível intermediário para gestores:
 * Adicionar e remover médicos;
 * Trocar as especialidades dos médicos;
 * Executar as funções dos atendentes.
+
 Nível oculto SudoMaster:
 * Adicionar e remover gestores.
 
@@ -27,26 +29,43 @@ Para executar o Hospital System, é necessário ter instalado em seu computador:
 Para instalar o Hospital System, siga os seguintes passos:
 
 1. Clone o repositório do projeto:
-```bash git clone https://github.com/HannahSantos/Hospital_system.git```
+
+```bash 
+git clone https://github.com/HannahSantos/Hospital_system.git
+```
 2. Navegue para a pasta do projeto:
-```bash cd Hospital_system```
+```bash 
+cd Hospital_system
+```
 3. Crie uma pasta "build" para armazenar os arquivos gerados pelo CMake:
-```bash mkdir build```
+```bash 
+mkdir build
+```
 4. Navegue para a pasta "build":
-```bash cd build```
+```bash 
+cd build
+```
 5. Configure o CMake:
-```bash cmake ..```
+```bash 
+cmake ..
+```
 6. Compile o projeto:
-```bash make```
+```bash 
+make
+```
 7. Crie um banco de dados MySQL com o nome "hospital_system".
 8. Edite o arquivo "config.h" com as credenciais do banco de dados MySQL.
 9. Execute o programa:
-```bash ./hospital_system```
+```bash 
+./hospital_system
+```
 ## Uso
 Para usar o Hospital System, siga os seguintes passos:
 
 1. Execute o programa:
-```bash ./hospital_system```
+```bash 
+./hospital_system
+```
 2. Faça o login no nível básico, intermediário ou no nível oculto, de acordo com o seu nível de acesso.
 3. Realize as tarefas disponíveis para o seu nível de acesso.
 
