@@ -87,4 +87,4 @@ O Hospital System é distribuído sob nenhuma licença, por hora.
 Agradecemos a todos que contribuíram para o desenvolvimento do Hospital System.
 
 ## Contato
-Para entrar em contato com a equipe do Hospital System, envie um e-mail para hospital.system@gmail.com.
+Para entrar em contato com a equipe do Hospital System, envie um e-mail para hospital.system.beta@gmail.com.
