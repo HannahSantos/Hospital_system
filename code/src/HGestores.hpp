@@ -16,7 +16,6 @@
 #define _GESTORES_HPP
 
 #include "HStructsInclude.hpp"
-#include "HSudoMaster.hpp"
 
 /// Lista médicos para o gestor.
 void listar_medicos_gestor();
@@ -37,6 +36,6 @@ void alterar_especialidade(std::fstream *Agendamentos, std::string nome_medico);
 void remover_medico(std::string nome_medico);
 
 /// Menu gerenciador do gestor
-void menu_gestor(std::string login);
+void menu_gestor(std::map<std::string, Gestores> cadastrados, std::string login);
 
 #endif // _GESTORES_HPP

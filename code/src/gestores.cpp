@@ -83,9 +83,10 @@ void remover_medico(std::string nome_medico){
 
 /*!
  * Executa o menu gerenciador dos gerenciadores.
- * \note Não possui parâmetros, é um auxiliar para executar as outras funções.
+ * \note É um auxiliar para executar as outras funções.
+ * \param cadastrados map associado ao struct Gestores com os gestores cadastrados no sistema.
  */
-void menu_gestor(std::string login){
+void menu_gestor(std::map<std::string, Gestores> cadastrados, std::string login){
     int opt;
     std::cout << "O que você deseja fazer, sr(a). " << cadastrados[login].nome_gestor << "?" << std::endl
               << "1 - Listar médicos" << std::endl
