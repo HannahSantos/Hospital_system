@@ -10,14 +10,15 @@
 
 /*!
  * Transforma um arquivo em um vetor.
- * \param cadastro vetor que receberá as linhas de um arquivo.
+ * \param vetor_armazenador vetor que receberá as linhas de um arquivo.
+ * \param Arquivo arquivo para ser lido.
  */
-void ler_arquivo(std::vector<std::string> &cadastro){
+void ler_arquivo(std::vector<std::string> &vetor_armazenador, std::string Arquivo){
     std::fstream Leitor;
     std::string linha;
-    Leitor.open(Arquivo_Gestores, std::ios::in|std::ios::app);
+    Leitor.open(Arquivo, std::ios::in|std::ios::app);
     while (std::getline(Leitor, linha)){
-        cadastro.push_back(linha);
+        vetor_armazenador.push_back(linha);
     }
     Leitor.close();
 }
@@ -25,16 +26,16 @@ void ler_arquivo(std::vector<std::string> &cadastro){
 
 /*!
  * Transforma um vetor com as informações de um arquivo num map<chave:string, vector<struct>>.
- * \param cadastro vetor que possui as linhas de um arquivo.
+ * \param cadastro_gestores vetor que possui as linhas do arquivo de gestores.
  * \param cadastrados map que vai receber as informações contidas no cadastro.
  * \param email string que será chave do map, guardando as informações de um gestor no map.
  */
-void insert_gestores(std::vector<std::string> &cadastro, std::map<std::string, Gestores> cadastrados, std::string email){
+void insert_gestores(std::vector<std::string> &cadastro_gestores, std::map<std::string, Gestores> cadastrados, std::string email){
     Gestores gestor;
-    for (auto i{0}; i < cadastro.size(); i=+3){
-        email = cadastro[i];
-        gestor.nome_gestor = cadastro[i+1];
-        gestor.senha_gestor = cadastro[i+2];
+    for (auto i{0}; i < cadastro_gestores.size(); i=+3){
+        email = cadastro_gestores[i];
+        gestor.nome_gestor = cadastro_gestores[i+1];
+        gestor.senha_gestor = cadastro_gestores[i+2];
         cadastrados[email] = gestor;
     }
 }
@@ -80,6 +81,7 @@ int senha_gestor(std::map<std::string, Gestores> cadastrados, std::string email,
  * Cadastra uma nova pessoa na função de gestor caso o email não exista, caso contrário retorna mensagem de erro.
  * \note Precisa ter um email diferente de um gestor já existente.
  * \param Cadastro Arquivo que armazena os logins e senhas dos gestores.
+ * \param novo_email string com email da nova pessoa a ser cadastrada como gestora.
  */
 void adicionar_gestores(std::fstream *Cadastro, std::string novo_email){
     std::string novo_nome, nova_senha;
@@ -98,23 +100,23 @@ void adicionar_gestores(std::fstream *Cadastro, std::string novo_email){
  * \note O gestor precisa existir.
  * \param cadastrados map com as informações dos gestores.
  * \param email string com o email do gestor a ser excluído.
- * \param vetor com as informações do arquivo.
+ * \param cadastro_gestores vetor que possui as linhas do arquivo de gestores.
  */
-void excluir_gestores(std::map<std::string, Gestores> &cadastrados, std::string email, std::vector<std::string> &cadastro){
+void excluir_gestores(std::map<std::string, Gestores> &cadastrados, std::string email, std::vector<std::string> &cadastro_gestores){
     std::fstream Excluir;
     remove("Cadastro_Gestores.txt");
     cadastrados.erase(email);
-    for (auto j{0}; j < cadastro.size(); ++j){
-        if (cadastro[j] == email){
-            cadastro.erase(cadastro.end()-cadastro.size()+j);
-            cadastro.erase(cadastro.end()-cadastro.size()+j+1);
-            cadastro.erase(cadastro.end()-cadastro.size()+j+2);
+    for (auto j{0}; j < cadastro_gestores.size(); ++j){
+        if (cadastro_gestores[j] == email){
+            cadastro_gestores.erase(cadastro_gestores.end()-cadastro_gestores.size()+j);
+            cadastro_gestores.erase(cadastro_gestores.end()-cadastro_gestores.size()+j+1);
+            cadastro_gestores.erase(cadastro_gestores.end()-cadastro_gestores.size()+j+2);
             break;
         }
     }
     Excluir.open(Arquivo_Gestores, std::ios::out);
-    for (auto i{0}; i < cadastro.size(); ++i){
-        Excluir << cadastro[i] << std::endl;
+    for (auto i{0}; i < cadastro_gestores.size(); ++i){
+        Excluir << cadastro_gestores[i] << std::endl;
     }
     Excluir.close();
     if (procurar_gestor(email) == 0){
@@ -128,14 +130,14 @@ void excluir_gestores(std::map<std::string, Gestores> &cadastrados, std::string 
 
 /*!
  * Lista os gestores existentes no arquivo.
- * \param cadastro vetor com as linhas do arquivo Cadastro.
+ * \param cadastro_gestores vetor que possui as linhas do arquivo de gestores.
 */
-void listar_gestores(std::vector<std::string> &cadastro){
+void listar_gestores(std::vector<std::string> &cadastro_gestores){
     std::cout << "Os gestores cadastrados são:" << std::endl; 
     int kount{1};
-    for (auto i{0}; i < cadastro.size(); i=+3){
-        std::cout << kount << " - Email: " << cadastro[i] << std::endl
-                  << "  - Nome: " << cadastro[i+1] << std::endl;
+    for (auto i{0}; i < cadastro_gestores.size(); i=+3){
+        std::cout << kount << " - Email: " << cadastro_gestores[i] << std::endl
+                  << "  - Nome: " << cadastro_gestores[i+1] << std::endl;
         ++kount;
     }
 }
@@ -165,11 +167,11 @@ int exit_or_continue(){
 /*!
  * Executa o menu gerenciador da SudoMaster.
  * \note É um auxiliar para executar as outras funções.
- * \param cadastro vetor de strings com as linhas do arquivo de cadastro. 
+ * \param cadastro_gestores vetor que possui as linhas do arquivo de gestores.
  * \param cadastrados map com as informações dos gestores.
  */
-void menu_sudomaster(std::vector<std::string> &cadastro, std::map<std::string, Gestores> &cadastrados){
-    int opt, continuar{1};
+void menu_sudomaster(std::vector<std::string> &cadastro_gestores, std::map<std::string, Gestores> &cadastrados){
+    int opt, continuar{1}, confirmar;
     std::string email;
     std::fstream Cadastro;
     std::cout << "O que você deseja fazer hoje?:)" << std::endl
@@ -185,12 +187,12 @@ void menu_sudomaster(std::vector<std::string> &cadastro, std::map<std::string, G
                 Cadastro.open(Arquivo_Gestores, std::ios::out|std::ios::app);
                 adicionar_gestores(&Cadastro, email);
                 Cadastro.close();
-                insert_gestores(cadastro, cadastrados, email);
+                insert_gestores(cadastro_gestores, cadastrados, email);
             }
             else{
                 std::cout << "Esse e-mail já está cadastrado, por favor, confira o e-mail fornecido e tente novamente.:(" << std::endl;
             }
-            
+            std::cout << "Deseja adicionar mais gestores(as)? (y/n)" << std::endl;
             continuar = exit_or_continue();
         }while(continuar == 1);
         continuar = 1;
@@ -199,19 +201,25 @@ void menu_sudomaster(std::vector<std::string> &cadastro, std::map<std::string, G
         do{
             std::cout << "Qual é o email do(a) gestor(a) a ser excluído?" << std::endl;
             std::getline(std::cin >> std::ws, email);
-            if (procurar_gestor(email) == 1) {
-                excluir_gestores(cadastrados, email, cadastro);
+            std::cout << "Você tem certeza? Essa ação não pode ser desfeita. (y/n)" << std::endl;
+            std::cin >> confirmar;
+            confirmar = exit_or_continue();
+            if (confirmar == 1 && procurar_gestor(email) == 1) {
+                excluir_gestores(cadastrados, email, cadastro_gestores);
             }
-            else {
+            else if (confirmar == 1 && procurar_gestor(email) == 0){
                 std::cout << "Esse e-mail não está cadastrado." << std::endl;
             }
-            std::cout << "Deseja excluir mais gestores(as)? (y/n)" << std::endl;
+            else {
+                std::cout << "O gestor vive mais um dia!" << std::endl;
+            }
+            std::cout << "Deseja excluir outros gestores(as)? (y/n)" << std::endl;
             continuar = exit_or_continue();
         }while(continuar == 1);
         continuar = 1;
     }
     else if (opt == 3){
-        listar_gestores(cadastro);
+        listar_gestores(cadastro_gestores);
     }
     else {
         std::cout << "Infelizmente a opção selecionada não é válida, caso queira adicionar alguma funcionalidade... Você já sabe. ;)" << std::endl;

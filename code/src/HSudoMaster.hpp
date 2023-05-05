@@ -21,10 +21,10 @@
 std::string senha_sudomaster = "catchmeifyoucan";
 
 /// Lê o arquivo e transforma em vetor.
-void ler_arquivo(std::vector<std::string> &cadastro);
+void ler_arquivo(std::vector<std::string> &vetor_armazenador, std::string Arquivo);
 
 /// Lê o vetor e transforma num map.
-void insert_gestores(std::vector<std::string> &cadastro, std::map<std::string, Gestores> cadastrados, std::string email);
+void insert_gestores(std::vector<std::string> &cadastro_gestores, std::map<std::string, Gestores> cadastrados, std::string email);
 
 /// Procura um gestor num arquivo.
 int procurar_gestor(std::string email);
@@ -36,7 +36,7 @@ int senha_gestor(std::map<std::string, Gestores> cadastrados, std::string email,
 void adicionar_gestores(std::fstream *Cadastro, std::string novo_email);
 
 /// Exclui gestores.
-void excluir_gestores(std::map<std::string, Gestores> &cadastrados, std::string email, std::vector<std::string> &cadastro);
+void excluir_gestores(std::map<std::string, Gestores> &cadastrados, std::string email, std::vector<std::string> &cadastro_gestores);
 
 /// Lista gestores existentes.
 void listar_gestores(std::vector<std::string> &cadastro);
@@ -45,6 +45,6 @@ void listar_gestores(std::vector<std::string> &cadastro);
 int exit_or_continue();
 
 /// Menu gerenciador da SudoMaster
-void menu_sudomaster(std::vector<std::string> &cadastro, std::map<std::string, Gestores> &cadastrados);
+void menu_sudomaster(std::vector<std::string> &cadastro_gestores, std::map<std::string, Gestores> &cadastrados);
 
 #endif // _SUDOMASTER_HPP
